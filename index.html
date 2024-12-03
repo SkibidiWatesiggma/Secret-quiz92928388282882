@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ultimate Quiz Challenge</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .hidden {
+      display: none;
+    }
+    .button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ultimate Riddle Challenge</h1>
+  <p>Solve these riddles to unlock the final link. Good luck!</p>
+
+  <div id="quiz"></div>
+  <button class="button" onclick="checkAnswers()">Done</button>
+
+  <p id="result" class="hidden">Congratulations! Here's your link: <a href="https://linktr.ee/lilythegamer91283">linktr.ee</a></p>
+
+  <script>
+    const questions = [
+      {
+        question: "What is &radic;(800)?",
+        answers: ["25.48913312", "28.2842712475", "30.8912349"],
+        correct: "28.2842712475",
+      },
+      {
+        question: "What is &radic;(20)?",
+        answers: ["4.472135955", "5.390481", "3.5897091"],
+        correct: "4.472135955",
+      },
+      {
+        question: "What is &radic;(2)?",
+        answers: ["Around 1.41", "2.03209477", "1.57671676"],
+        correct: "Around 1.41",
+      },
+      {
+        question: "What does pi equal to?",
+        answers: ["3.14", "3.141592...", "3.2"],
+        correct: "3.141592...",
+      },
+      {
+        question: "What is the longest word in Polish?",
+        answers: [
+          "Konstantynopolitańczykowianeczka",
+          "Supercalifragilisticexpialidocious",
+          "Pneumonoultramicroscopicsilicovolcanoconiosis",
+        ],
+        correct: "Konstantynopolitańczykowianeczka",
+      },
+      {
+        question: 'What does "добро пожаловать" mean in Russian?',
+        answers: ["Welcome", "Goodbye", "Thank you"],
+        correct: "Welcome",
+      },
+      {
+        question: "When was Geometry Dash update 2.2 released?",
+        answers: ["December 19 2023", "December 18 2023", "January 1 2024"],
+        correct: "December 19 2023",
+      },
+      {
+        question: 'What does "puer" mean in Latin?',
+        answers: ["Child (masculine)", "Man", "Dog"],
+        correct: "Child (masculine)",
+      },
+      {
+        question: 'What does "Kot przeskoczył przez płot." mean in Polish?',
+        answers: [
+          "The cat jumped over the fence",
+          "The cat stayed at home",
+          "The cat climbed a tree",
+        ],
+        correct: "The cat jumped over the fence",
+      },
+    ];
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function loadQuiz() {
+      const quizContainer = document.getElementById("quiz");
+      questions.forEach((q, index) => {
+        const questionDiv = document.createElement("div");
+        questionDiv.classList.add("question");
+
+        const questionText = document.createElement("p");
+        questionText.innerHTML = `<strong>${index + 1}. ${q.question}</strong>`;
+        questionDiv.appendChild(questionText);
+
+        const shuffledAnswers = [...q.answers];
+        shuffle(shuffledAnswers);
+
+        shuffledAnswers.forEach((answer) => {
+          const label = document.createElement("label");
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = `q${index}`;
+          input.value = answer;
+          label.appendChild(input);
+          label.appendChild(document.createTextNode(` ${answer}`));
+          questionDiv.appendChild(label);
+          questionDiv.appendChild(document.createElement("br"));
+        });
+
+        quizContainer.appendChild(questionDiv);
+      });
+    }
+
+    function checkAnswers() {
+      let allCorrect = true;
+
+      questions.forEach((q, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (!selected || selected.value !== q.correct) {
+          allCorrect = false;
+        }
+      });
+
+      if (allCorrect) {
+        document.getElementById("result").classList.remove("hidden");
+      } else {
+        alert("One or more answers are incorrect. Try again!");
+      }
+    }
+
+    // Load the quiz when the page loads
+    window.onload = loadQuiz;
+  </script>
+</body>
+</html>
